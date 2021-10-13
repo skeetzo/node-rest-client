@@ -1,5 +1,5 @@
-var http = require('http');
-var fs   = require('fs');
+const http = require('http'),
+      fs   = require('fs');
 
 var blacklist = [];
 var iplist    = [];
@@ -9,32 +9,28 @@ fs.watchFile('./iplist', function(c,p) { update_iplist(); });
 
 function update_blacklist() {
   console.log("Updating blacklist.");
-  blacklist = fs.readFileSync('./blacklist').split('\n')
+  blacklist = fs.readFileSync('./blacklist', "utf8").split('\n')
               .filter(function(rx) { return rx.length })
               .map(function(rx) { return RegExp(rx) });
 }
 
 function update_iplist() {
   console.log("Updating iplist.");
-  iplist = fs.readFileSync('./iplist').split('\n')
+  iplist = fs.readFileSync('./iplist', "utf8").split('\n')
            .filter(function(rx) { return rx.length });
 }
 
 function ip_allowed(ip) {
-  for (i in iplist) {
-    if (iplist[i] == ip) {
+  for (const i in iplist)
+    if (iplist[i] == ip)
       return true;
-    }
-  }
   return false;
 }
 
 function host_allowed(host) {
-  for (i in blacklist) {
-    if (blacklist[i].test(host)) {
+  for (const i in blacklist)
+    if (blacklist[i].test(host))
       return false;
-    }
-  }
   return true;
 }
 

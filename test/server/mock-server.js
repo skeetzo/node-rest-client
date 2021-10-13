@@ -1,21 +1,18 @@
-var http = require('http'), fs = require('fs');
+const http = require('http'),
+	  fs = require('fs');
 
-var RouterOptions = {
+const RouterOptions = {
 	"baseMessageDir" : "",
-	"JSONMessageFile" : './test/server/message.json',
-	"XMLMessageFile" : './test/server/message.xml'
-
+	"JSONMessageFile" : "./test/server/message.json",
+	"XMLMessageFile" : "./test/server/message.xml"
 };
 
-var RouteManager = {
+const RouteManager = {
 	"findRoute" : function(req, res) {
 		var handler = null;
-		for ( var route in this.routes) {
-			if (req.url.startsWith(route)) {
+		for (const route in this.routes)
+			if (req.url.startsWith(route))
 				handler = this.routes[route];
-			}
-
-		}
 		if (!handler)
 			throw "cannot find route " + req.url;
 		handler.call(this, req, res);
@@ -23,8 +20,7 @@ var RouteManager = {
 	"routes" : {
 		"/json" : function(req, res) {
 			// this.sleep(5000);
-			var message = fs
-					.readFileSync(RouterOptions.JSONMessageFile, 'utf8');
+			const message = fs.readFileSync(RouterOptions.JSONMessageFile, 'utf8');
 			res.writeHead(200, {
 				'Content-Type' : 'application/json',
 				'test-header'  : 'test'
@@ -34,7 +30,7 @@ var RouteManager = {
 		},
 		"/json/path" : function(req, res) {
 			// this.sleep(5000);
-			var message = {
+			const message = {
 				"url" : req.url
 			};
 			res.writeHead(200, {
@@ -45,7 +41,7 @@ var RouteManager = {
 			res.end();
 		},
 		"/xml" : function(req, res) {
-			var message = fs.readFileSync(RouterOptions.XMLMessageFile, 'utf8');
+			const message = fs.readFileSync(RouterOptions.XMLMessageFile, 'utf8');
 			res.writeHead(200, {
 				'Content-Type' : 'application/xml'
 			});
@@ -72,7 +68,7 @@ var RouteManager = {
 		},
 		"/json/path/post" : function(req, res) {
 			req.on('data', function(data) {
-				var message = {
+				const message = {
 					"url" : req.url
 				};
 				// console.log("[SERVER] data = ", data);
@@ -88,12 +84,8 @@ var RouteManager = {
 		},
 		"/json/error" : function(req, res) {
 			// this.sleep(5000);
-			
-
 			res.writeHead(500, {'Content-Type': 'text/plain'});
 			res.end();
-			
-
 		},
 		"/xml/path/post" : function(req, res) {
 			req.on('data', function(data) {
@@ -120,7 +112,7 @@ var RouteManager = {
 			res.end();
 		},
 		"/json/contenttypewithspace" : function(req, res) {
-			var message = fs.readFileSync('./message.json', 'utf8');
+			const message = fs.readFileSync('./message.json', 'utf8');
 			res.writeHead(200, {
 				'Content-Type' : 'application/json; charset=utf-8'
 			});
@@ -128,7 +120,7 @@ var RouteManager = {
 			res.end();
 		},
 		"/json/test/content/type" : function(req, res) {
-			var message = fs.readFileSync(RouterOptions.JSONMessageFile, 'utf8');
+			const message = fs.readFileSync(RouterOptions.JSONMessageFile, 'utf8');
 			res.writeHead(200, {
 				'Content-Type' : 'test/json'
 			});
@@ -136,7 +128,7 @@ var RouteManager = {
 			res.end();
 		},
 		"/xml/test/content/type" : function(req, res) {
-			var message = fs.readFileSync(RouterOptions.XMLMessageFile, 'utf8');
+			const message = fs.readFileSync(RouterOptions.XMLMessageFile, 'utf8');
 			res.writeHead(200, {
 				'Content-Type' : 'test/xml'
 			});
@@ -144,42 +136,36 @@ var RouteManager = {
 			res.end();
 		},
 		"/followRedirects":function(req, res){
-
 			var repeatOffset = req.url.indexOf("?"),
-			repeat = parseInt(req.url.substring(repeatOffset + 1),10),
-			location  = "";
-
-			if (repeatOffset === 0){
+				repeat = parseInt(req.url.substring(repeatOffset + 1),10),
+				location  = "";
+			if (repeatOffset === 0)
 				res.writeHead(301, {
 					'Location':'http://localhost:4444/redirected'
 				});
-			}else{
-				if (repeat > 0){
+			else {
+				if (repeat > 0) 
 					res.writeHead(301, {
 						'Location':'http://localhost:4444/followRedirects?' + --repeat
 					});
-				}else{
+				else
 					res.writeHead(301, {
 						'Location':'http://localhost:4444/redirected'
 					});
-				}
-
 			}
 			res.end();
 		},
 		"/redirected":function(req, res){
-			var message={"redirected":++this.redirectCount};
+			const message = {"redirected":++this.redirectCount};
 			res.writeHead(200, {
 				'Content-Type' : 'application/json; charset=utf-8'
 			});
 			res.write(JSON.stringify(message));
 			res.end();
 		}
-
 	},
 	"sleep" : function(ms) {
-
-		var stop = new Date().getTime();
+		const stop = new Date().getTime();
 		while (new Date().getTime() < stop + ms) {
 			;
 		}

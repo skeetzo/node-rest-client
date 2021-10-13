@@ -1,22 +1,23 @@
 {
   "author": "Alejandro Alvarez Acero",
-  "name": "node-rest-client",
-  "description": "node API REST client",
-  "version": "3.1.0",
+  "contributor": "Skeetzo",
+  "name": "node-rest-client-VS",
+  "description": "(updated) node API REST client",
+  "version": "0.1.0",
   "repository": {
-    "type":"git",
-    "url": "https://github.com/aacerox/node-rest-client.git"
+    "type": "git",
+    "url": "https://github.com/skeetzo/node-rest-client.git"
   },
   "main": "./lib/node-rest-client",
   "dependencies": {
-    "xml2js":">=0.2.4",
-    "debug": "~2.2.0",
-    "follow-redirects":">=1.2.0"
-    },
+    "debug": "^4.3.2",
+    "follow-redirects": ">=1.2.0",
+    "xml2js": ">=0.2.4"
+  },
   "devDependencies": {
     "mocha": "*",
     "should": ">= 0.0.1"
-    },
+  },
   "optionalDependencies": {},
   "engines": {
     "node": "*"

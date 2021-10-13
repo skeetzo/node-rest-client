@@ -1,5 +1,5 @@
-var server =require("../server/mock-server"),
-Client=require("../../lib/node-rest-client").Client;
+const server = require("../server/mock-server"),
+      Client = require("../../lib/node-rest-client").Client;
 
 describe('GET Method', function () {
 	

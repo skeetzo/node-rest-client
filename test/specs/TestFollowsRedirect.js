@@ -54,7 +54,7 @@ describe('Follows Redirects', function () {
       });
 
       req.on('error', function(err){
-        err.message.should.be.equal("Max redirects exceeded.")        
+        err.message.should.be.equal("Maximum number of redirects exceeded")        
         done();
       });
 

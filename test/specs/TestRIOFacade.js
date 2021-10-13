@@ -193,9 +193,11 @@ describe("#Serializers",function(){
 				  return request.headers["test-header"] === "test";			  
 			  	},
 			  "serialize":function(data,nrcEventEmitter,serializedCallback){
-				  if (typeof data === 'object')
-					  data.serialized = true;				  
-				  serializedCallback(JSON.stringify(data));
+				  if (typeof data === 'object') {
+					  data.serialized = true;
+						data = JSON.stringify(data);
+					}
+				  serializedCallback(data);
 			  	}
 			  },
 			defaultTestSerializer = {"name":"default-test-serializer",
@@ -253,15 +255,16 @@ describe("#Serializers",function(){
 	    
 	    it("request match serializer", function(done){
 	        var client = new Client(),
-	        args={
-	        	headers:{"test-header":"test"},
-	        	data:{"testNumber":123, "testString":"abc"}	        
+	        args = {
+	        	headers: {"test-header":"test"},
+	        	data: {"testNumber":123, "testString":"abc"}	        
 	        };
 	        
 	        client.serializers.clean();
 	        client.serializers.add(testSerializer);
 	                
-	        var request = client.post(server.baseURL + "/json/path/post",args, function(data, response){
+	        var request = client.post(server.baseURL + "/json/path/post", args, function(data, response) {
+	        	data.postData = JSON.parse(data.postData);
 	            data.postData.should.not.equal(null);
 	            data.postData.should.type("object");
 	            data.postData.should.have.property("serialized");
@@ -271,9 +274,9 @@ describe("#Serializers",function(){
 
 	        done();
 	        
-	      });
+	    });
 
-   it("get all regular serializers", function(done){
+    it("get all regular serializers", function(done){
 
         var client = new Client();
  		var serializers = client.serializers.getAll();
