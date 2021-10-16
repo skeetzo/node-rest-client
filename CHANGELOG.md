@@ -8,6 +8,9 @@ fork: https://github.com/aacerox/node-rest-client
 **0.1.0 : 10/13/2021**
 	- updated tests; all green
 
+
+
 ## TODO
+- fix validatorjs stuff if at all
 
 - update from callback hell to async/await

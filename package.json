@@ -12,6 +12,7 @@
   "dependencies": {
     "debug": "^4.3.2",
     "follow-redirects": ">=1.2.0",
+    "validatorjs": "^3.22.1",
     "xml2js": ">=0.2.4"
   },
   "devDependencies": {
